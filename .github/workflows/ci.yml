@@ -53,7 +53,6 @@ jobs:
             -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_REGION.amazonaws.com/${{ matrix.service }}:$IMAGE_TAG \
           $BUILD_PATH
 
-
       - name: Push Docker Image
         run: |
           IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ matrix.service }}:${{ github.sha }}
@@ -79,8 +78,7 @@ jobs:
           REGION=${{ secrets.AWS_REGION }}
 
           for SERVICE in auth gateway orders order-service product-service user-service; do
-            MANIFEST="gitops/k8s/backend/${SERVICE}.yml"
-            sed -i "s|image:.*${SERVICE}:.*|image: ${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${SERVICE}:${NEW_TAG}|g" $MANIFEST
+            sed -i "s|image:.*${SERVICE}:.*|image: ${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${SERVICE}:${NEW_TAG}|g" gitops/k8s/backend/${SERVICE}.yml
           done
 
           sed -i "s|image:.*frontend:.*|image: ${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/frontend:${NEW_TAG}|g" gitops/k8s/frontend/deployment.yml
@@ -91,5 +89,4 @@ jobs:
           git config user.email "github-actions@github.com"
           git add gitops/k8s/
           git diff --staged --quiet || git commit -m "ci: update image tags to ${{ github.sha }}"
-          git pull --rebase origin main
           git push
