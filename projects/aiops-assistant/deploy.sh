@@ -24,7 +24,7 @@ REGION="us-east-1"
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 AGENT_ROLE_NAME="aiops-bedrock-agent-role"
 AGENT_NAME="aiops-assistant"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR=$(pwd -W 2>/dev/null || pwd)
 
 echo ""
 echo "============================================="
@@ -138,7 +138,8 @@ import boto3, json, sys
 region = "$REGION"
 agent_id = "$AGENT_ID"
 account_id = "$ACCOUNT_ID"
-script_dir = "$SCRIPT_DIR"
+import os
+script_dir = os.path.abspath("$SCRIPT_DIR")
 
 client = boto3.client("bedrock-agent", region_name=region)
 
