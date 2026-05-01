@@ -34,3 +34,4 @@ Thumbs.db
 
 # Environment variables
 .env
+.projects/Infrastructure/.terraform.lock.hcl
