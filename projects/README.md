@@ -13,6 +13,25 @@ This guide walks through deploying the boutique e-commerce application from infr
 
 ---
 
+# ⚠️ IMPORTANT PREREQUISITE
+
+Before starting Terraform:
+
+```bash
+helm version
+```
+
+If Helm is NOT installed, install it first.
+
+👉 Helm is REQUIRED because:
+
+* ArgoCD is deployed using Helm
+* Prometheus + Grafana are deployed using Helm
+
+❗ Terraform does NOT install these components.
+
+---
+
 # 🐳 Local Development (Optional)
 
 ```bash
@@ -252,4 +271,3 @@ terraform destroy --auto-approve
 Terraform → EKS → Deploy Apps → ArgoCD → Prometheus/Grafana → Fluent Bit → CloudWatch
 
 ---
-
