@@ -1,0 +1,24 @@
+Fluentbit
+
+MSYS_NO_PATHCONV=1 helm install aws-for-fluent-bit aws/aws-for-fluent-bit \
+  --namespace amazon-cloudwatch \
+  --create-namespace \
+  --set cloudWatch.enabled=true \
+  --set cloudWatch.region=us-east-1 \
+  --set cloudWatch.logGroupName=/eks/boutique/pods \
+  --set cloudWatch.logStreamPrefix=from-fluent-bit-
+
+
+  helm repo add aws https://aws.github.io/eks-charts
+helm repo update
+
+helm upgrade --install aws-for-fluent-bit aws/aws-for-fluent-bit \
+  --namespace amazon-cloudwatch \
+  --create-namespace \
+  --set cloudWatch.enabled=true \
+  --set cloudWatch.region=us-east-1 \
+  --set cloudWatch.logGroupName=/eks/boutique/pods \
+  --set cloudWatch.logStreamPrefix=from-fluent-bit- \
+  --set firehose.enabled=false \
+  --set kinesis.enabled=false \
+  --set elasticsearch.enabled=false
